@@ -12,6 +12,7 @@ datadirs = 'data'
 
 csv_files = [f for f in os.listdir(datadirs) if f.endswith('.csv')]
 print(csv_files)
+df = []  # Initialize an empty list to store DataFrames
 
 try:
     conn = sqlite3.connect(db_file)
@@ -26,24 +27,17 @@ except Error as e:
 finally:
     for file in csv_files:
         file_path = os.path.join(datadirs, file)
-        df1 = pd.read_csv(file_path)
-        print(df1.head)
+        
         try:
-             open(file_path, 'r')
+            df.append(pd.read_csv(file_path))  # Read CSV into a DataFrame and append to the list
+            print("File opened successfully")
         except Error as e:
-                print(e)
-        finally:
-                print("File opened successfully")
-                with open(file_path, 'r') as f:
-                    reader = csv.reader(open(file_path, 'r'),delimiter=',')
-                    print(reader)
-                    for read in reader:
-                        i = 0
-                        print(read)
-                        # for item in read:
-                        #     print(item)
-                        #     break
-                            # column_data = row[i]
-                            # # cursor.execute('INSERT INTO ' + table1 +(row) + VALUES ()+column_data)'
-                            # i+=1
-                            # print(column_data)
+            print(e)
+
+combined = pd.merge(df[1],df[2],on = "shipment_identifier")
+sel = combined[['product']]
+name  = sel.drop_duplicates()
+name.rename(columns={'product': 'name'})
+name.to_sql('shipment', conn, index=False, if_exists='append')  
+print(name)
+    
