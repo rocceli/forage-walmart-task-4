@@ -4,7 +4,6 @@ import sqlite3
 import pandas as pd
 from sqlite3 import Error
 
-print('am in')
 db_file = 'shipment_database.db'
 table1 = 'shipment'
 table2 = 'products'
@@ -28,7 +27,7 @@ finally:
     for file in csv_files:
         file_path = os.path.join(datadirs, file)
         df1 = pd.read_csv(file_path)
-        print(df1.columns)
+        print(df1.head)
         try:
              open(file_path, 'r')
         except Error as e:
@@ -37,9 +36,10 @@ finally:
                 print("File opened successfully")
                 with open(file_path, 'r') as f:
                     reader = csv.reader(open(file_path, 'r'),delimiter=',')
+                    print(reader)
                     for read in reader:
                         i = 0
-                        # print(read)
+                        print(read)
                         # for item in read:
                         #     print(item)
                         #     break
