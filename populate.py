@@ -38,11 +38,11 @@ finally:
             print(e)
 
 combined = pd.merge(df[1],df[2],on = "shipment_identifier")
-# sel = combined[['product']] already inserted the product data to database so i commented this snippet
-# name  = sel.drop_duplicates()
-# name.rename(columns={'product': 'name'}, inplace=True)
-# name.to_sql('product', conn, index=False, if_exists='append')
-# print(name)
+sel = combined[['product']] already inserted the product data to database so i commented this snippet
+name  = sel.drop_duplicates()
+name.rename(columns={'product': 'name'}, inplace=True)
+name.to_sql('product', conn, index=False, if_exists='append')
+print(name)
 
 colums = ['driver_identifier','on_time']
 combined.drop(colums, inplace=True, axis=1)
